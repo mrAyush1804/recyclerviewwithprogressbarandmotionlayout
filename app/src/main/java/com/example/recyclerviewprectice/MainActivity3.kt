@@ -73,7 +73,9 @@ class MainActivity3 : AppCompatActivity() {
                 R.drawable.group_video_call
             )
         )
-
+        data.add(viewpagerdata(R.drawable.male, "Hello I am anuska", R.drawable.group_video_call))
+        data.add(viewpagerdata(R.drawable.male, "Hello I am anuska", R.drawable.group_video_call))
+        data.add(viewpagerdata(R.drawable.male, "Hello I am anuska", R.drawable.group_video_call))
 
         val viewPagerAdpter = ViewPagerAdpter(data, this)
         viewPager2.adapter = viewPagerAdpter
