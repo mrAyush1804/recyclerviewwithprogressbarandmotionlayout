@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeWidth="0dp">
+
+        <RelativeLayout
+            android:id="@+id/rv_imtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp">
+
+            <ImageView
+                android:id="@+id/iv_group"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/videocall"
+                app:tint="@color/arrow_green" />
+
+            <TextView
+                android:id="@+id/text_groupcall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_group"
+                android:fontFamily="@font/poppint_bold"
+                android:text="Group Call" />
+
+            <ImageView
+                android:id="@+id/iv_Video"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/group_video_call"
+                app:tint="@color/arrow_green" />
+
+            <TextView
+                android:id="@+id/text_videocall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_group"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppint_bold"
+                android:text="Video Call" />
+
+            <ImageView
+                android:id="@+id/iv_noramlcall"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/incoming_call"
+                app:tint="@color/arrow_green" />
+
+            <TextView
+                android:id="@+id/text_noramlcall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_group"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/poppint_bold"
+                android:text="Call"/>
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green">#32AD37</color>
+    <color name="sky_blue">#92caeb</color>
+    <color name="gras">#c8d048</color>
+    <color name="gray">#B2B3B0</color>
+    <color name="black_second">#313131</color>
+    <color name="arrow_green">#0d7766</color>
+    <color name="edit_tv_color">#f9f9f9</color>
+    <color name="circle_colour">#c0eee5</color>
+    <color name="bottom_navition_colour">#c8cccf</color>
+    <color name="yellow">#F2DE85</color>
+    <color name="red">#BA1738</color>
+    <color name="Space">#284049</color>
+
+</resources>

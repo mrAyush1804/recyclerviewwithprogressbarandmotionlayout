@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="10dp"
+    app:cardElevation="2dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeForsecondlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_for_fist_iamge_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:strokeWidth="0dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeusername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp">
+
+
+                <ImageView
+                    android:id="@+id/Image_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="3dp"
+                    android:src="@drawable/doctor" />
+
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/Image_profile"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="UserName"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/tv_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_toRightOf="@id/Image_profile"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Online"
+                    android:textColor="@color/green"
+                    android:textSize="20sp" />
+
+
+                <ImageView
+                    android:id="@+id/iv_ul_chatbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/chat"
+                    app:tint="@color/gras" />
+
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layoutanimation"
+            android:layout_below="@id/mcv_for_fist_iamge_profile">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerForsecond"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/seconduserlist"
+                tools:itemCount="1">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
