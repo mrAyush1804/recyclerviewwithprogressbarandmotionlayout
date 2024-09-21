@@ -103,6 +103,11 @@ class MainActivity3 : AppCompatActivity() {
 
     }
 
+    fun ayush()
+    {
+        println("first branch")
+    }
+
     fun inisliazation() {
         viewPager2 = findViewById(R.id.viewpager2)
     }
