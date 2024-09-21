@@ -107,6 +107,10 @@ class MainActivity3 : AppCompatActivity() {
     {
         println("first branch")
     }
+ fun ravi()
+    {
+        println("first branch")
+    }
 
     fun inisliazation() {
         viewPager2 = findViewById(R.id.viewpager2)
