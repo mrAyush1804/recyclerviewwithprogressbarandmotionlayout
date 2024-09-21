@@ -80,7 +80,8 @@ class MainActivity3 : AppCompatActivity() {
         val viewPagerAdpter = ViewPagerAdpter(data, this)
         viewPager2.adapter = viewPagerAdpter
 
-        viewPager2.registerOnPageCh j bjbjk bjkb jkbd jkbjk
+        viewPager2.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -95,7 +96,7 @@ class MainActivity3 : AppCompatActivity() {
             }
 
 
-            override fun dc hjwdv jhv   hjvbk jw    bcjkbonPageScrollStateChanged(state: Int) {
+            override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
             }
         });
@@ -111,7 +112,6 @@ class MainActivity3 : AppCompatActivity() {
         println("first branch")
     }
 
-    bdbvk mn nehj  x n, hj  chjdbxhjJ
 
     fun inisliazation() {
         viewPager2 = findViewById(R.id.viewpager2)
