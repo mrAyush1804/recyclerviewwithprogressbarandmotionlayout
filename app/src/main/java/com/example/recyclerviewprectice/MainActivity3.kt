@@ -103,18 +103,6 @@ class MainActivity3 : AppCompatActivity() {
 
     }
 
-    fun ayush()
-    {
-        println("first branch")
-    }
- fun ravi()
-    {
-        println("first branch")
-    }
-    fun my()
-    {
-        println("i am here")
-    }
 
 
     fun inisliazation() {
