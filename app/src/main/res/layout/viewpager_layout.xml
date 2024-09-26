@@ -19,6 +19,8 @@
         app:cardElevation="3dp">
 
 
+
+
         <RelativeLayout
             android:id="@+id/relativeViewpager"
             android:layout_width="match_parent"
@@ -65,5 +67,7 @@
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+
 
 </RelativeLayout>
