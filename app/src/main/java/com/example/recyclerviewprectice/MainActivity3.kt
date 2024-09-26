@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
@@ -18,7 +20,7 @@ class MainActivity3 : AppCompatActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var dotsLayout: LinearLayout
     private val dots = mutableListOf<ImageView>()
-    private var  data = ArrayList<viewpagerdata>()
+    private var data = ArrayList<viewpagerdata>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +38,12 @@ class MainActivity3 : AppCompatActivity() {
         pagesetr()
 
 
-
-
         val viewPagerAdpter = ViewPagerAdpter(data, this)
         viewPager2.adapter = viewPagerAdpter
         setupDotIndicator(data.size)
 
 
-       // viewPager2.setPageTransformer(compositePageTransformer)
+        // viewPager2.setPageTransformer(compositePageTransformer)
 
         viewPager2.registerOnPageChangeCallback(object : OnPageChangeCallback() {
 
@@ -69,8 +69,6 @@ class MainActivity3 : AppCompatActivity() {
 
 
     }
-
-
 
 
     private fun setupDotIndicator(totalPages: Int) {
@@ -111,8 +109,7 @@ class MainActivity3 : AppCompatActivity() {
         dotsLayout = findViewById(R.id.dotindicater)
     }
 
-    fun addData()
-    {
+    fun addData() {
         data.add(viewpagerdata(R.drawable.girl, "Hello I am anuska", R.drawable.group_video_call))
         data.add(viewpagerdata(R.drawable.doctor, "Hello I am Docter", R.drawable.incoming_call))
         data.add(viewpagerdata(R.drawable.male, "Hello I am ayush", R.drawable.group_video_call))
@@ -171,24 +168,27 @@ class MainActivity3 : AppCompatActivity() {
         data.add(viewpagerdata(R.drawable.male, "Hello I am anuska", R.drawable.group_video_call))
 
     }
-    private fun pagesetr()
-    {
 
-        val compositePageTransformer=CompositePageTransformer()
+    private fun pagesetr() {
+
+        val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(40))
         compositePageTransformer.addTransformer(object : ViewPager2.PageTransformer {
             override fun transformPage(page: View, position: Float) {
 
-                val r=1- abs(position)
-                page.scaleY=0.45f+r*0.45f
+                val r = 1 - abs(position)
+                page.scaleY = 0.45f + r * 0.45f
 
             }
 
 
-
-
         })
         viewPager2.setPageTransformer(compositePageTransformer)
+    }
+
+    fun deleteswapable(i:Int)
+    {
+        data.removeAt(i)
     }
 }
 
