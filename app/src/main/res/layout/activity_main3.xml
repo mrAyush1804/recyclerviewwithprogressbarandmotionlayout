@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity3"
     android:orientation="horizontal"
-    android:background="@color/Space">
+    android:background="@color/circle_colour">
 
 
 
@@ -28,8 +28,8 @@
         android:id="@+id/viewpager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="1dp"
         android:orientation="horizontal"
@@ -37,6 +37,8 @@
         tools:listitem="@layout/viewpager_layout">
 
     </androidx.viewpager2.widget.ViewPager2>
+
+
 
 
 </RelativeLayout>
