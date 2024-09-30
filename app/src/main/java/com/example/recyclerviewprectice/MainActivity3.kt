@@ -186,10 +186,7 @@ class MainActivity3 : AppCompatActivity() {
         viewPager2.setPageTransformer(compositePageTransformer)
     }
 
-    fun deleteswapable(i:Int)
-    {
-        data.removeAt(i)
-    }
+
 }
 
 

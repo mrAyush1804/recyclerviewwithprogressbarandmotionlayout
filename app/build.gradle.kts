@@ -46,4 +46,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("com.android.support:design:28.0.0-rc01")
 }

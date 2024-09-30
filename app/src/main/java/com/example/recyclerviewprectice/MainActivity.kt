@@ -1,45 +1,74 @@
 package com.example.recyclerviewprectice
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
+import InfiniteScrollListener
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
-import android.view.animation.AnimationUtils
-import android.widget.HorizontalScrollView
+import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.toColor
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var secondrecyclerview:RecyclerView
-    private lateinit var materialCardView: MaterialCardView
     private lateinit var rvadapteritem: rvadapteritem
     private lateinit var dataList: ArrayList<itemmodel>
-    val data = ArrayList<itemmodel>()
-    private lateinit var   info:ArrayList<secondlist>
+    private lateinit var info: ArrayList<secondlist>
+    var infiniteScrollListener: InfiniteScrollListener? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.black);
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        insalization()
+
+
+        initializeViews()
+        initializeInfo()
+        populateData()
+        setupSwipeToDelete()
+
+
         recyclerView.layoutManager = LinearLayoutManager(this)
+        rvadapteritem = rvadapteritem(dataList, this)
+        recyclerView.adapter = rvadapteritem
+
+        val manager = LinearLayoutManager(this)
+        infiniteScrollListener = InfiniteScrollListener(manager, this)
+        infiniteScrollListener!!.setLoaded()
 
 
-        val info = ArrayList<secondlist>()
+
+        recyclerView.layoutManager = manager
+        recyclerView.addOnScrollListener(infiniteScrollListener!!)
+        /** ye recical viwew ke decoration ke liye use ho raha ha ***/
+
+        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
+
+
+    }
+
+    private fun initializeViews() {
+        recyclerView = findViewById(R.id.recyclerviewlist)
+    }
+
+    private fun initializeInfo() {
+        info = ArrayList()
+
+
         info.add(
             secondlist(
                 R.drawable.videocall,
@@ -48,92 +77,65 @@ class MainActivity : AppCompatActivity() {
                 "Group call",
                 "Video Call",
                 "call"
-            ),
-        )
-        val info1 = ArrayList<secondlist>()
-        info1.add(
-            secondlist(
-                R.drawable.videocall,
-                R.drawable.group_video_call,
-                R.drawable.no_internet_connection,
-                "Group call",
-                "Video Call",
-                "Network"
-            ),
+            )
         )
 
 
+    }
 
+    private fun populateData() {
+        dataList = ArrayList()
+        var usernameCount = 0
+        for (i in 0 until 4) {
+            dataList.add(itemmodel(R.drawable.male, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+            dataList.add(itemmodel(R.drawable.doctor, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+            dataList.add(itemmodel(R.drawable.girl, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+            dataList.add(itemmodel(R.drawable.male__1_, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+            usernameCount++
+        }
+    }
+  /** ye swip to deleate karne ke liye jab tum left
+  *swap karo ge tho item deleat ho jaye ga recycalview se***/
 
-        data.add(itemmodel(R.drawable.male, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.male, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.male__1_, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.male, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.male__1_, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.male, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.male, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.male, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.girl, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.doctor, "Username", "Offline", info1))
-        data.add(itemmodel(R.drawable.male__1_, "Username", "Online", info))
-        data.add(itemmodel(R.drawable.male, "Username", "Online", info))
+    private fun setupSwipeToDelete() {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
 
-
-        val adpter = rvadapteritem(data, this)
-        recyclerView.adapter = adpter
-
-       val itemTouchHelper=ItemTouchHelper(object :
-       ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
-           override fun onMove(
-               recyclerView: RecyclerView,
-               viewHolder: RecyclerView.ViewHolder,
-               target: RecyclerView.ViewHolder
-           ): Boolean {
-              return false
-           }
-
-           @SuppressLint("NotifyDataSetChanged")
-           override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-              val position=viewHolder.adapterPosition
-                when(direction)
-               {
-                  ItemTouchHelper.LEFT->{
-                      data.removeAt(position)
-                      adpter.notifyDataSetChanged().apply {
-                         Toast.makeText(applicationContext, "deleted", Toast.LENGTH_SHORT).show()
-                      }
-                  }
-               }
-           }
-       })
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    dataList.removeAt(position)
+                    rvadapteritem.notifyItemRemoved(position)
+                    Toast.makeText(applicationContext, "Item deleted", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
     }
 
 
 
+    @SuppressLint("NotifyDataSetChanged")
+     fun loadMore(NUM_LOAD_ITEMS: Int) {
+        val handler = Handler()
+        handler.postDelayed({
+            val currentSize = NUM_LOAD_ITEMS
+            for (i in currentSize until currentSize + 2) {
+                dataList.add(itemmodel(R.drawable.male, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+                dataList.add(itemmodel(R.drawable.doctor, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+                dataList.add(itemmodel(R.drawable.girl, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+                dataList.add(itemmodel(R.drawable.male__1_, "Username ", if (i % 2 == 0) "Online" else "Offline", info))
+            }
+            rvadapteritem.notifyDataSetChanged()
+           infiniteScrollListener?.setLoaded()
 
-    fun insalization() {
-        recyclerView = findViewById(R.id.recyclerviewlist)
-
-
-
+        }, 2000)
     }
-
 }
-

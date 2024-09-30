@@ -1,88 +1,104 @@
 package com.example.recyclerviewprectice
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.HorizontalScrollView
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recyclerviewprectice.rvadapteritem.*
-import com.google.android.material.animation.AnimationUtils
-import com.google.android.material.card.MaterialCardView
 
-class rvadapteritem(var mlist:List<itemmodel>, private val context:Context):RecyclerView.Adapter<rvadapteritem.Myviewholder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Myviewholder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.userlist, parent, false)
+class rvadapteritem(
+    private var mlist: List<itemmodel>,
+    private val context: Context
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        return Myviewholder(view)
+    private val VIEW_TYPE_ITEM = 0
+    private val VIEW_TYPE_LOADING = 1
+    private var isLoading = true
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_ITEM) {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.userlist, parent, false)
+            MyViewHolder(view)
+        } else {
+
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.progressbar, parent, false)
+            LoadingViewHolder(view)
+
+        }
     }
 
     override fun getItemCount(): Int {
-        return mlist.size
+        return mlist.size + if (isLoading) 1 else 0
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position >= mlist.size) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is MyViewHolder) {
+            populateItemRows(holder, position)
+        } else if (holder is LoadingViewHolder) {
+
+           showLoadingView(holder,mlist.size-1)
+        }
+    }
 
 
+
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivProfile: ImageView = itemView.findViewById(R.id.Image_profile)
+        val tvUsername: TextView = itemView.findViewById(R.id.tv_username)
+        val tvOnline: TextView = itemView.findViewById(R.id.tv_online)
+        val secondRecyclerView: RecyclerView = itemView.findViewById(R.id.recyclerForsecond)
+        val relativeLayout: RelativeLayout = itemView.findViewById(R.id.relativeForsecondlist)
+    }
+
+
+
+    class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val progressBar: ProgressBar = itemView.findViewById(R.id.progressbar)
+    }
+
+
+    private class showLoadingView(viewHolder:LoadingViewHolder, position: Int) {
 
     }
 
-    override fun onBindViewHolder(holder: Myviewholder, position: Int) {
 
-        val itemmodel=mlist[position]
-        holder.ivProfile.setImageResource(itemmodel.imageprofile)
-        holder.tvUsername.text = itemmodel.username
-        holder.tvOnline.text = itemmodel.online
-        holder.secondrecyclerView.setHasFixedSize(true)
-        holder.secondrecyclerView.layoutManager=LinearLayoutManager(context)
-        val adpter=rvsecondadpter(itemmodel.secondlist,context)
-        holder.secondrecyclerView.adapter=adpter
+    private fun populateItemRows(viewHolder: MyViewHolder, position: Int) {
+        val itemModel = mlist[position]
+        viewHolder.ivProfile.setImageResource(itemModel.imageprofile)
+        viewHolder.tvUsername.text = itemModel.username
+        viewHolder.tvOnline.text = itemModel.online
+        viewHolder.secondRecyclerView.setHasFixedSize(true)
+        viewHolder.secondRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        val isexpandable=itemmodel.isExpendable
-        holder.secondrecyclerView.visibility=if (isexpandable) View.VISIBLE else View.GONE
-        holder.relativeLayout.setOnClickListener(View.OnClickListener {
-            itemmodel.isExpendable=!itemmodel.isExpendable
+        val adapter = rvsecondadpter(itemModel.secondlist, context)
+        viewHolder.secondRecyclerView.adapter = adapter
+
+        val isExpandable = itemModel.isExpendable
+        viewHolder.secondRecyclerView.visibility = if (isExpandable) View.VISIBLE else View.GONE
+
+        viewHolder.relativeLayout.setOnClickListener {
+            itemModel.isExpendable = !itemModel.isExpendable
             notifyItemChanged(position)
-        })
-
-
-        if (itemmodel.online=="Online")
-        {
-            holder.tvOnline.setTextColor(ContextCompat.getColor(context, R.color.green))
-        }
-        else{
-            holder.tvOnline.setTextColor(ContextCompat.getColor(context, R.color.red))
-
         }
 
-
-
-
+        viewHolder.tvOnline.setTextColor(
+            ContextCompat.getColor(context, if (itemModel.online == "Online") R.color.green else R.color.red)
+        )
     }
 
-    class Myviewholder (ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val ivProfile:ImageView
-        val tvUsername:TextView
-        val tvOnline:TextView
-        val secondrecyclerView:RecyclerView
-        val relativeLayout:RelativeLayout
 
-        init {
-             ivProfile = ItemView.findViewById(R.id.Image_profile)
-             tvUsername = ItemView.findViewById(R.id.tv_username)
-             tvOnline = ItemView.findViewById(R.id.tv_online)
-             secondrecyclerView=ItemView.findViewById(R.id.recyclerForsecond)
-            relativeLayout=ItemView.findViewById(R.id.relativeForsecondlist)
-
-
-        }
-
-
-    }
 }
