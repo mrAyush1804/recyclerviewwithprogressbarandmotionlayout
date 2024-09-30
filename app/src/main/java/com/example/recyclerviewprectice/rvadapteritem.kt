@@ -100,5 +100,11 @@ class rvadapteritem(
         )
     }
 
+    companion object {
+        fun notifyItemRemoved(position: Int) {
+
+        }
+    }
+
 
 }

@@ -182,9 +182,25 @@ class MainActivity3 : AppCompatActivity() {
             }
 
 
+
         })
-        viewPager2.setPageTransformer(compositePageTransformer)
-    }
+
+            compositePageTransformer.addTransformer { page, position ->
+                if (position <= 0) {
+                    page.translationX = 0f
+                    page.scaleX = 1f
+                    page.scaleY = 1f
+                } else {
+                    page.translationX = -page.width * position
+                    val scaleFactor = 0.75f + (1 - Math.abs(position)) * 0.25f
+                    page.scaleX = scaleFactor
+                    page.scaleY = scaleFactor
+                }
+            }
+            viewPager2.setPageTransformer(compositePageTransformer)
+        }
+
+
 
 
 }

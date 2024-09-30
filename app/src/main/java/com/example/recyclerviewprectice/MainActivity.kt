@@ -1,7 +1,9 @@
 package com.example.recyclerviewprectice
 
 import InfiniteScrollListener
+
 import android.annotation.SuppressLint
+import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 
 class MainActivity : AppCompatActivity() {
@@ -107,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
 
+
             @SuppressLint("NotifyDataSetChanged")
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
@@ -116,8 +120,39 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Item deleted", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float,
+                                     dY: Float,
+                                     actionState: Int,
+                                     isCurrentlyActive: Boolean
+            ) {
+                RecyclerViewSwipeDecorator.Builder(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+                    .addBackgroundColor(
+                        ContextCompat.getColor(
+                            this@MainActivity,
+                            R.color.green
+                        )
+                    )
+                    .addSwipeLeftLabel("Item remove")
+                    .create()
+                    .decorate()
+
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+
+            }
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
     }
 
 
