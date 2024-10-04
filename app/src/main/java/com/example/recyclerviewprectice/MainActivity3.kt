@@ -189,7 +189,7 @@ class MainActivity3 : AppCompatActivity() {
             if (position < -1 || position > 1) {
                 page.alpha = 0f
             } else if (position <= 0) {
-                page.alpha = 1 + position // fade in
+                page.alpha = 1 + position // fade ing
                 page.translationZ = 1f // z-axis translation
             } else {
                 page.alpha = 1 - position // fade out
