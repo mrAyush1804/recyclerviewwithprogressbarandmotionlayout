@@ -185,19 +185,19 @@ class MainActivity3 : AppCompatActivity() {
 
         })
 
-            compositePageTransformer.addTransformer { page, position ->
-                if (position <= 0) {
-                    page.translationX = 0f
-                    page.scaleX = 1f
-                    page.scaleY = 1f
-                } else {
-                    page.translationX = -page.width * position
-                    val scaleFactor = 0.75f + (1 - Math.abs(position)) * 0.25f
-                    page.scaleX = scaleFactor
-                    page.scaleY = scaleFactor
-                }
+        compositePageTransformer.addTransformer { page, position ->
+            if (position < -1 || position > 1) {
+                page.alpha = 0f
+            } else if (position <= 0) {
+                page.alpha = 1 + position // fade in
+                page.translationZ = 1f // z-axis translation
+            } else {
+                page.alpha = 1 - position // fade out
+                page.translationZ = 1f // z-axis translation
             }
-            viewPager2.setPageTransformer(compositePageTransformer)
+        }
+
+        viewPager2.setPageTransformer(compositePageTransformer)
         }
 
 
